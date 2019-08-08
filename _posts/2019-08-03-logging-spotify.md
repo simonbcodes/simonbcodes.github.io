@@ -90,4 +90,4 @@ I decided to set up a Raspberry Pi 3+ to keep the script running on, mostly to k
 
 I'll see you in around 365 days ;)
 
-The GitHub repo for this project is located here [here](www.github.com/simonbcodes/spotify-logger), and if you'd like to track my Spotify history yourself, you'll find my profile [here](https://open.spotify.com/user/simonb.0)
+The GitHub repo for this project is located here [here](https://www.github.com/simonbcodes/spotify-logger), and if you'd like to track my Spotify history yourself, you'll find my profile [here](https://open.spotify.com/user/simonb.0)
