@@ -67,26 +67,25 @@ def dict_get(d, path):
 
 ### Saving Data
 
-When it comes to saving the data we've collected, we can use a CSV. Python's built in `csv` module makes this very simple, as we can use a simple `with` construct to open the .csv file and append to it. Before we do this, because `csv`'s `writerow` function takes in a list, we need to convert all the the values in our data dictionary into a list. This is as simple as:
+When it comes to saving the data we've collected, we can use a Redis key/value database (looking back, it might have been better to use MongoDB in order to take advantage of document databases, since the data we're collected is JSON). This requires `redis-py`, a Python API for accessing Redis. To open a connection to the database, all we need to do is create an instance of a the `StrictRedis` object with an appropriate host and database number. Since Redis supports up to 16 databses by default, we will just be using db 0. From there, we can `hmset` to create a key value pair of `listening:{UTC_timestamp}` and the data dict.
+
+Before the data can be added, however, we need to convert some values in it to work with Redis. Since Redis does not support boolean values, we have to convert Python's `True` and `False` values to 1 and 0, respectively. This can be done as follows:
 
 ```python
-list(d.values())
+def redis_convert(d):
+    for key, val in d.items():
+        if isinstance(val, bool):
+            d[key] = 1 if val else 0
+    return d
 ```
 
-Now that we have our data list, we can _append_ to the csv as follows (note the _'a'_ parameter in the open() call):
-
-```python
-with open('history.csv', 'a') as f:
-    writer = csv.writer(f)
-    attributes = list(to_append.values())
-    writer.writerow(attributes)
-```
+All this does is iterate through each key value pair in the data dict, checking if the value is of type `bool`. If it is, it changes the value to be an integer instead. 
 
 And that's the majority of the project done! We have authentication, automatic token refreshing, data parsing, collection, and then storage. Now to actually deploy it.
 
 ### Deployment
 
-I decided to set up a Raspberry Pi 3+ to keep the script running on, mostly to keep it isolated from my regular development environment and to make sure it runs at all times. The Pi itself runs Raspbian, and from there it's only a matter of installing dependencies. The project only uses one 3rd party library (`requests`), so the installation is very simple. However, once the script is running, I do not want to have to check the Pi to make sure it hasn't crashed or the script isn't running because of an unforeseen reason. Because of this, I created a runner script (`run.py`) that executes the script as a subprocess. In the event that the script exits unexpectedly, the subprocess will just be restarted and continue running.  Hopefully, with these systems in place, the script will be resilient enough to run 24/7 for the entire year.
+I decided to set up a Raspberry Pi 3+ to keep the script running on, mostly to keep it isolated from my regular development environment and to make sure it runs at all times. The Pi itself runs Raspbian, and from there it's only a matter of installing dependencies. The project only uses `requests` and `redis-py`, so the installation is very simple. However, once the script is running, I do not want to have to check the Pi to make sure it hasn't crashed or the script isn't running because of an unforeseen reason. Because of this, I created a runner script (`run.py`) that executes the script as a subprocess. In the event that the script exits unexpectedly, the subprocess will just be restarted and continue running.  Hopefully, with these systems in place, the script will be resilient enough to run 24/7 for the entire year.
 
 I'll see you in around 365 days ;)
 
