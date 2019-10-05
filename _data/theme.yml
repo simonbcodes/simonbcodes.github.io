@@ -6,17 +6,7 @@ highlight_color: '#8238e0'
 # Profile links on the left sidebar, leave blank to ignore
 social:
   github: simonbcodes
-  # bitbucket: philipj
-  # hacker_news: swanson
-  # stackexchange: 348619
-  # stackoverflow: 348619
-  # twitter: _swanson
-  # facebook: zuck
-  # tumblr: animalygifs
   linkedin: simonbukin
-  # gplus: 110552447039675960964
-  # gravatar: 86e6ff8f75f9daef42d53b7f8002fd95
-  # flickr: johndoe
 
 # "Hi, I'm _______"
 name: Simon Bukin
