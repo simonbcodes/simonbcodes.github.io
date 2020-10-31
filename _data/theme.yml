@@ -16,7 +16,7 @@ email: simonbukin@gmail.com
 google_analytics_key: UA-144555320-1
 
 # Toggle "Postings are my own" disclaimer in footer
-show_disclaimer: false
+show_disclaimer: true
 
 # Toggle link/icon to view atom feed (/atom.xml) in sidebar
 show_atom_feed: true
